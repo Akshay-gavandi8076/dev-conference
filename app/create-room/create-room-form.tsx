@@ -1,3 +1,4 @@
+// app/create-room/create-room-form.tsx
 'use client'
 
 import React from 'react'
@@ -16,17 +17,17 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useSession } from 'next-auth/react'
-import { createRoom } from './roomActions'
+import { createRoomAction } from './action'
+import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
+import { toast } from '@/components/ui/use-toast'
 
 const CreateRoomForm = () => {
-  const { data: session } = useSession()
-
-  console.log('data:', session)
+  const router = useRouter()
 
   const formSchema = z.object({
     name: z.string().min(1).max(50),
-    description: z.string().min(1).max(50),
+    description: z.string().min(1).max(250),
     githubRepo: z.string().min(1).max(50),
     language: z.string().min(1).max(50),
   })
@@ -41,24 +42,29 @@ const CreateRoomForm = () => {
     },
   })
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    try {
-      const userId = session?.user?.id
-      if (!userId) {
-        throw new Error('User ID not found in session')
-      }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const session = await getSession()
 
-      await createRoom({
-        userId,
-        name: data.name,
-        description: data.description ?? null,
-        githubRepo: data.githubRepo ?? null,
-        language: data.language ?? null,
+    if (!session?.user?.id) {
+      throw new Error('User is not authenticated')
+    }
+
+    const userId = session.user.id
+
+    try {
+      await createRoomAction(values, userId)
+
+      toast({
+        title: 'Room Created',
+        description: 'Your room was successfully created',
       })
 
-      console.log('Room created successfully')
+      router.push('/')
     } catch (error) {
-      console.error('Failed to create room:', error)
+      toast({
+        title: 'Room Failed',
+        description: `Failed to create room ${error}`,
+      })
     }
   }
 
@@ -95,7 +101,7 @@ const CreateRoomForm = () => {
                 <Input {...field} />
               </FormControl>
               <FormDescription>
-                Please describe waht you are doing
+                Please describe what you are doing.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -112,7 +118,7 @@ const CreateRoomForm = () => {
                 <Input {...field} />
               </FormControl>
               <FormDescription>
-                Please put a link to the project you are working on
+                Please put a link to the project you are working on.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -124,17 +130,18 @@ const CreateRoomForm = () => {
           name='language'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Primary Programming Langauge</FormLabel>
+              <FormLabel>Primary Programming Language</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
               <FormDescription>
-                List the primary programming language you are working with
+                List the primary programming language you are working with.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <Button type='submit'>Submit</Button>
       </form>
     </Form>

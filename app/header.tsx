@@ -10,8 +10,6 @@ import Link from 'next/link'
 export async function Header() {
   const session = await getServerSession(authOptions)
 
-  console.log(session)
-
   return (
     <header>
       <div className='flex justify-end mr-4'>

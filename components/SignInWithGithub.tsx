@@ -12,7 +12,7 @@ const SignInWithGithub = () => {
       variant='secondary'
       onClick={() =>
         signIn('github', {
-          callbackUrl: `${window.location.origin}`,
+          callbackUrl: `${window.location.origin}/create-room`,
         })
       }
     >
