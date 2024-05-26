@@ -1,28 +1,73 @@
 import { authOptions } from '@/app/utils/auth'
-import LogoutButton from '@/components/LogoutButton'
 import { Button } from '@/components/ui/button'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Room } from '@prisma/client'
+import { GithubIcon } from 'lucide-react'
+import { getRooms } from './data-access/room'
+
+const RoomCard = ({ room }: { room: Room }) => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{room.name}</CardTitle>
+        <CardDescription>{room.description}</CardDescription>
+      </CardHeader>
+      <CardContent className='flex flex-col gap-4'>
+        {room.githubRepo && (
+          <Link
+            href={room.githubRepo}
+            className='flex gap-2 items-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <GithubIcon />
+            Github Project
+          </Link>
+        )}
+      </CardContent>
+      <CardFooter>
+        <Button>
+          <Link href={`/rooms/${room.id}`}>Join Room</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
 
+  const rooms = await getRooms(session?.user.id!)
+
   return (
-    <div className='p-10'>
-      <h1>Hello from the index page, this is a public route</h1>
-      {session ? (
-        <div>
-          <h1>You are logged in</h1>
-          <LogoutButton />
-        </div>
-      ) : (
-        <div>
-          <h1>Please log in to see something special</h1>
-          <Button asChild>
-            <Link href='/auth'>Login</Link>
-          </Button>
-        </div>
-      )}
-    </div>
+    <main className='p-16'>
+      <div className='flex justify-between items-center mb-12'>
+        <h1 className='text-4xl'>Find Dev Rooms</h1>
+
+        <Button asChild>
+          <Link href='/create-room'> Create Room </Link>
+        </Button>
+      </div>
+
+      <div className='grid grid-cols-4 gap-3'>
+        {rooms.map((room) => {
+          return (
+            <RoomCard
+              key={room.id}
+              room={room}
+            />
+          )
+        })}
+      </div>
+    </main>
   )
 }

@@ -1,13 +1,13 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import prisma from '../../lib/db'
-import { getSession } from 'next-auth/react'
 
 type RoomData = {
   name: string
   description: string
   githubRepo: string
-  language: string
+  tags: string
 }
 
 export async function createRoomAction(roomData: RoomData, userId: string) {
@@ -18,10 +18,11 @@ export async function createRoomAction(roomData: RoomData, userId: string) {
         name: roomData.name,
         description: roomData.description,
         githubRepo: roomData.githubRepo,
-        language: roomData.language,
+        tags: roomData.tags,
       },
     })
 
+    revalidatePath('/')
     return room
   } catch (error: any) {
     throw new Error('Failed to create room', error)

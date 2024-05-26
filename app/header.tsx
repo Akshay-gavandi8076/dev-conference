@@ -1,33 +1,32 @@
 import { ModeToggle } from '@/components/mode-toggle'
-import { Button } from '@/components/ui/button'
-import { getServerSession } from 'next-auth'
-import { useRouter } from 'next/navigation'
 import React from 'react'
-import { authOptions } from './utils/auth'
-import LogoutButton from '@/components/LogoutButton'
+import AccountDropdown from '@/components/AccountDropdown'
+import Image from 'next/image'
 import Link from 'next/link'
 
-export async function Header() {
-  const session = await getServerSession(authOptions)
-
+export const Header = () => {
   return (
-    <header>
-      <div className='flex justify-end mr-4'>
-        <div className='mr-4'>
-          <ModeToggle />
-        </div>
+    <header className='container mx-auto py-2 bg-gray-50 dark:bg-gray-900'>
+      <div className='flex justify-between items-center'>
+        <Link
+          href='/'
+          className='flex gap-2 items-center text-xl hover:underline'
+        >
+          <Image
+            src='/icon.png'
+            width='60'
+            height='60'
+            alt='DevConf.'
+          />
+          DevConf.
+        </Link>
 
-        {session ? (
+        <div className='flex gap-2'>
+          <AccountDropdown />
           <div>
-            <LogoutButton />
+            <ModeToggle />
           </div>
-        ) : (
-          <div>
-            <Button asChild>
-              <Link href='/auth'>Login</Link>
-            </Button>
-          </div>
-        )}
+        </div>
       </div>
     </header>
   )
