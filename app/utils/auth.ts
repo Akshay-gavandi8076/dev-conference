@@ -48,3 +48,7 @@ export const authOptions: NextAuthOptions = {
 }
 
 export default nextAuth(authOptions)
+
+// export function getSession() {
+//   return getServerSession(authConfig)
+// }

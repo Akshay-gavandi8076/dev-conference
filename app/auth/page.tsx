@@ -7,13 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../utils/auth'
 import { redirect } from 'next/navigation'
 import SignInForm from '@/components/SignInForm'
+import { getSession } from 'next-auth/react'
 
 export default async function AuthRoute() {
-  const session = await getServerSession(authOptions)
+  const session = await getSession()
 
   if (session) {
     return redirect('/')

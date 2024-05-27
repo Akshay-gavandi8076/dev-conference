@@ -1,10 +1,14 @@
 import prisma from '@/lib/db'
-import { Prisma } from '@prisma/client'
-import { unstable_noStore as noStore } from 'next/cache'
+import { Prisma, Room } from '@prisma/client'
+
+type RoomData = {
+  name: string
+  description: string
+  githubRepo: string
+  tags: string
+}
 
 export const getRooms = async (search: string | undefined) => {
-  noStore()
-
   let where: Prisma.RoomWhereInput = {}
 
   if (search) {
@@ -26,27 +30,70 @@ export const getRooms = async (search: string | undefined) => {
   return rooms
 }
 
-// export const getRooms = async (userId: string) => {
-//   noStore()
-//   const rooms = await prisma.room.findMany({
-//     where: {
-//       userId: userId,
-//     },
-//     orderBy: {
-//       createdAt: 'desc',
-//     },
-//   })
+export const getUserRooms = async (userId: string) => {
+  const rooms = await prisma.room.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
 
-//   return rooms
-// }
+  return rooms
+}
 
 export const getRoom = async (roomId: string) => {
-  noStore()
-  const room = await prisma.room.findFirst({
+  const room = await prisma.room.findUnique({
     where: {
       id: roomId,
     },
   })
 
   return room
+}
+
+export const deleteRoom = async (roomId: string) => {
+  await prisma.room.delete({
+    where: {
+      id: roomId,
+    },
+  })
+}
+
+export const createRoom = async (roomData: RoomData, userId: string) => {
+  const room = await prisma.room.create({
+    data: {
+      userId,
+      name: roomData.name,
+      description: roomData.description,
+      githubRepo: roomData.githubRepo,
+      tags: roomData.tags,
+    },
+  })
+  return room
+}
+
+type UpdateRoomData = {
+  id: string
+  userId: string
+  name: string
+  description: string
+  githubRepo: string
+  tags: string
+}
+
+export const editRoom = async (roomData: UpdateRoomData): Promise<Room> => {
+  return prisma.room.update({
+    where: {
+      id: roomData.id,
+    },
+    data: {
+      name: roomData.name,
+      description: roomData.description,
+      githubRepo: roomData.githubRepo,
+      tags: roomData.tags,
+      userId: roomData.userId,
+    },
+  })
 }

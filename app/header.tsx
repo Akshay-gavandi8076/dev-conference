@@ -6,16 +6,16 @@ import AccountDropdown from '@/components/AccountDropdown'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { getServerSession } from 'next-auth'
 import { Button } from '@/components/ui/button'
 import { LogInIcon } from 'lucide-react'
 
 export const Header = () => {
-  // const session = getServerSession()
   const session = useSession()
 
+  const isLoggedIn = !!session.data
+
   return (
-    <header className='container mx-auto py-2 bg-gray-50 dark:bg-gray-900'>
+    <header className='container mx-auto py-2 bg-gray-50 dark:bg-gray-900 z-10 relative'>
       <div className='flex justify-between items-center'>
         <Link
           href='/'
@@ -30,9 +30,29 @@ export const Header = () => {
           DevConf.
         </Link>
 
+        <nav className='flex gap-4'>
+          {isLoggedIn && (
+            <>
+              <Link
+                className='hover:underline'
+                href='/browse'
+              >
+                Browse
+              </Link>
+
+              <Link
+                className='hover:underline'
+                href='/your-rooms'
+              >
+                Your Rooms
+              </Link>
+            </>
+          )}
+        </nav>
+
         <div className='flex gap-2 items-center'>
-          {session?.data && <AccountDropdown />}
-          {!session.data && (
+          {isLoggedIn && <AccountDropdown />}
+          {!isLoggedIn && (
             <Button variant='outline'>
               <LogInIcon className='mr-2 h-4 w-4' />
               <Link href='/auth'>Sign In</Link>

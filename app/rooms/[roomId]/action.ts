@@ -2,7 +2,6 @@
 
 import { authOptions } from '@/app/utils/auth'
 import { getServerSession } from 'next-auth'
-import { getSession } from 'next-auth/react'
 import { StreamChat } from 'stream-chat'
 
 export async function generateTokenAction() {
