@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SearchIcon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -29,6 +29,12 @@ const SearchBar = () => {
       search: query.get('search') ?? '',
     },
   })
+
+  const search = query.get('search')
+
+  useEffect(() => {
+    form.setValue('search', search ?? '')
+  }, [search, form])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.search) {

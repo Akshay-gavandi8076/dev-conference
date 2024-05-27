@@ -14,6 +14,8 @@ import { Room } from '@prisma/client'
 import { GithubIcon } from 'lucide-react'
 import { getRooms } from './data-access/room'
 import SearchBar from './search-bar'
+import { TagsList } from '@/components/tags-list'
+import { splitTags } from '@/lib/utils'
 
 const RoomCard = ({ room }: { room: Room }) => {
   return (
@@ -23,6 +25,8 @@ const RoomCard = ({ room }: { room: Room }) => {
         <CardDescription>{room.description}</CardDescription>
       </CardHeader>
       <CardContent className='flex flex-col gap-4'>
+        <TagsList tags={splitTags(room.tags || '')} />
+
         {room.githubRepo && (
           <Link
             href={room.githubRepo}
