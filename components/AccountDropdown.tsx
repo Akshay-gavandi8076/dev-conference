@@ -27,10 +27,10 @@ function AccountDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline'>
+        <Button variant='ghost'>
           <Avatar className='mr-2 h-7 w-7'>
             <AvatarImage src={session?.user.image ?? ''} />
-            <AvatarFallback>Profile picture</AvatarFallback>
+            <AvatarFallback>PP</AvatarFallback>
           </Avatar>
           {session?.user.name}
         </Button>
@@ -38,11 +38,7 @@ function AccountDropdown() {
       <DropdownMenuContent>
         {/* <DropdownMenuSeparator /> */}
         {isLoggedIn ? (
-          <DropdownMenuItem
-            onClick={() =>
-              signOut({ callbackUrl: `${window.location.origin}` })
-            }
-          >
+          <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
             <LogOutIcon className='mr-2 h-4 w-4' /> Sign Out
           </DropdownMenuItem>
         ) : (
@@ -51,10 +47,6 @@ function AccountDropdown() {
             <Link href='/auth'>Sign In</Link>
           </DropdownMenuItem>
         )}
-
-        {/* <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   )
