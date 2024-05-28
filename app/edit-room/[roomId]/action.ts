@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { editRoom, getRoom } from '@/app/data-access/room'
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/utils/auth'
+
+import { getSession } from '@/lib/auth'
 
 type RoomData = {
   id: string
@@ -15,7 +15,7 @@ type RoomData = {
 }
 
 export async function editRoomAction(roomData: RoomData) {
-  const session = await getServerSession(authOptions)
+  const session = await getSession()
 
   if (!session) {
     throw new Error('You must be logged in to edit this room')

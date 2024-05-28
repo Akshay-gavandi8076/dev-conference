@@ -1,5 +1,5 @@
-// app/auth/page.tsx
 import SignInWithGithub from '@/components/SignInWithGithub'
+import SignInWithGoogle from '@/components/SignInWithGoogle'
 import {
   Card,
   CardContent,
@@ -8,10 +8,12 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { redirect } from 'next/navigation'
-import SignInForm from '@/components/SignInForm'
+import { unstable_noStore as noStore } from 'next/cache'
 import { getSession } from 'next-auth/react'
 
 export default async function AuthRoute() {
+  noStore()
+
   const session = await getSession()
 
   if (session) {
@@ -19,7 +21,7 @@ export default async function AuthRoute() {
   }
 
   return (
-    <div className='w-screen h-screen flex items-center justify-center'>
+    <div className='flex items-center justify-center mt-20'>
       <Card>
         <CardHeader>
           <CardTitle>Please sign in</CardTitle>
@@ -29,7 +31,7 @@ export default async function AuthRoute() {
         </CardHeader>
         <CardContent>
           <div className='flex flex-col'>
-            <SignInForm />
+            <SignInWithGoogle />
 
             <SignInWithGithub />
           </div>

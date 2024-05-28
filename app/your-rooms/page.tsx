@@ -1,16 +1,13 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { unstable_noStore } from 'next/cache'
 import Image from 'next/image'
 import { getUserRooms } from '../data-access/room'
-import { getSession } from 'next-auth/react'
 import { UserRoomCard } from './user-room-card'
 import { unstable_noStore as noStore } from 'next/cache'
 
 export default async function YourRoomsPage() {
   noStore()
-  const session = await getSession()
-  const rooms = await getUserRooms(session?.user.id!)
+  const rooms = await getUserRooms()
 
   return (
     <main className='min-h-screen p-16'>

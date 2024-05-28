@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import { Room } from '@prisma/client'
-import { Edit2, GithubIcon, PencilIcon, Trash2Icon } from 'lucide-react'
+import { GithubIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 import { TagsList } from '@/components/tags-list'
 import { splitTags } from '@/lib/utils'
 import Link from 'next/link'
@@ -66,10 +66,7 @@ export const UserRoomCard = ({ room }: { room: Room }) => {
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button
-              variant='destructive'
-              className='flex gap-2'
-            >
+            <Button variant='destructive'>
               <Trash2Icon className='h-4 w-4' /> Delete Room
             </Button>
           </AlertDialogTrigger>

@@ -1,4 +1,3 @@
-// app/create-room/create-room-form.tsx
 'use client'
 
 import React from 'react'
@@ -59,7 +58,7 @@ const CreateRoomForm = () => {
         description: 'Room created successfully',
       })
 
-      router.push('/')
+      router.push('/your-rooms')
     } catch (error) {
       toast({
         title: 'Room Failed',

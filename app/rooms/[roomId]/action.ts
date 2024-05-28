@@ -1,11 +1,10 @@
 'use server'
 
-import { authOptions } from '@/app/utils/auth'
-import { getServerSession } from 'next-auth'
+import { getSession } from '@/lib/auth'
 import { StreamChat } from 'stream-chat'
 
 export async function generateTokenAction() {
-  const session = await getServerSession(authOptions)
+  const session = await getSession()
 
   if (!session) {
     throw new Error('No session found')

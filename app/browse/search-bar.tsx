@@ -13,9 +13,12 @@ import { SearchIcon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { unstable_noStore as noStore } from 'next/cache'
 import { z } from 'zod'
 
 const SearchBar = () => {
+  noStore()
+
   const router = useRouter()
   const query = useSearchParams()
 
@@ -38,9 +41,9 @@ const SearchBar = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.search) {
-      router.push(`/?search=${values.search}`)
+      router.push(`/browse/?search=${values.search}`)
     } else {
-      router.push('/')
+      router.push('/browse')
     }
   }
 
@@ -76,7 +79,6 @@ const SearchBar = () => {
             variant='link'
             onClick={() => {
               form.setValue('search', '')
-              router.push('/')
             }}
           >
             Clear

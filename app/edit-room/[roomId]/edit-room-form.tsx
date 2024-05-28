@@ -1,4 +1,3 @@
-// app/create-room/create-room-form.tsx
 'use client'
 
 import React from 'react'
@@ -54,7 +53,6 @@ const EditRoomForm = ({ room }: { room: Room }) => {
         title: 'Room Updated',
         description: 'Your room was successfully updated',
       })
-      router.push('/your-rooms')
     } catch (error) {
       console.error('Failed to edit room:', error)
       toast({
