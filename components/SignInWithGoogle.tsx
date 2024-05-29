@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button } from './ui/button'
-import { Github } from 'lucide-react'
+import { FaGoogle } from 'react-icons/fa'
 import { signIn } from 'next-auth/react'
 
 const SignInWithGoogle = () => {
@@ -17,7 +17,7 @@ const SignInWithGoogle = () => {
       }
     >
       Login with Google
-      {/* <Github className='w-4 h4 ml-4' /> */}
+      <FaGoogle className='w-4 h4 ml-4' />
     </Button>
   )
 }

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SearchIcon } from 'lucide-react'
+import { CircleX, SearchIcon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -59,11 +59,32 @@ const SearchBar = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  {...field}
-                  className='w-[440px]'
-                  placeholder='Filter rooms by keywords, such as typescript, next.js, python'
-                />
+                <div className='relative'>
+                  <Input
+                    {...field}
+                    className='w-[440px] pr-10'
+                    placeholder='Filter rooms by keywords, such as typescript, next.js, python'
+                  />
+
+                  {query.get('search') && (
+                    <Button
+                      variant='ghost'
+                      className='absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full'
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        padding: 0,
+                      }}
+                    >
+                      <CircleX
+                        onClick={() => {
+                          form.setValue('search', '')
+                        }}
+                        className='h-5 w-5 hover:text-red-500'
+                      />
+                    </Button>
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,20 +94,19 @@ const SearchBar = () => {
         <Button type='submit'>
           <SearchIcon className='h-4 w-4 mr-2' /> Search
         </Button>
-
-        {query.get('search') && (
-          <Button
-            variant='link'
-            onClick={() => {
-              form.setValue('search', '')
-            }}
-          >
-            Clear
-          </Button>
-        )}
       </form>
     </Form>
   )
 }
 
 export default SearchBar
+
+// <Button
+//           variant='ghost'
+//           onClick={() => {
+//             form.setValue('search', '')
+//           }}
+//           className='absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full border-none bg-none hover:drop-shadow-none'
+//         >
+//           <CircleX className='h-4 w-4 hover:text-red-500' />
+//         </Button>

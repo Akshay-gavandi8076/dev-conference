@@ -15,7 +15,7 @@ import { Button } from '../../components/ui/button'
 
 export const RoomCard = ({ room }: { room: Room }) => {
   return (
-    <Card>
+    <Card className='shadow-md shadow-slate-300 dark:shadow-slate-800'>
       <CardHeader>
         <CardTitle>{room.name}</CardTitle>
         <CardDescription>{room.description}</CardDescription>
@@ -31,7 +31,7 @@ export const RoomCard = ({ room }: { room: Room }) => {
             rel='noopener noreferrer'
           >
             <GithubIcon />
-            Github Project
+            Github Repo
           </Link>
         )}
       </CardContent>

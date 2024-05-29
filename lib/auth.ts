@@ -38,6 +38,7 @@ export const authConfig: NextAuthOptions = {
     //   from: process.env.EMAIL_FROM,
     // }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, user }) {
       if (user && session.user) {

@@ -15,7 +15,7 @@ export default async function Home({
   const rooms = await getRooms(searchParams.search)
 
   return (
-    <main className='p-16'>
+    <main className='max-h-screen p-16'>
       <div className='flex justify-between items-center mb-12'>
         <h1 className='text-4xl'>Find Dev Rooms</h1>
 

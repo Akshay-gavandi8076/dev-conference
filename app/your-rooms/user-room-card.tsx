@@ -30,7 +30,7 @@ import { deleteRoomAction } from './action'
 
 export const UserRoomCard = ({ room }: { room: Room }) => {
   return (
-    <Card>
+    <Card className='shadow-md shadow-slate-300 dark:shadow-slate-800'>
       <CardHeader className='relative'>
         <Button
           className='absolute top-2 right-2'
@@ -55,7 +55,7 @@ export const UserRoomCard = ({ room }: { room: Room }) => {
             rel='noopener noreferrer'
           >
             <GithubIcon />
-            Github Project
+            Github Repo
           </Link>
         )}
       </CardContent>
